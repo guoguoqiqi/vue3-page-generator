@@ -1,0 +1,40 @@
+/** 组件相关样式 */
+.flex-container {
+  width: 100%;
+  height: 200px;
+  padding: 0.5px;
+  box-sizing: border-box;
+  border: 1px solid #eee;
+  background: #eee;
+
+  .drag-wrapper {
+    height: 100%;
+    padding: 0.5px;
+  }
+}
+
+.draggable-render-item {
+  display: inline-block;
+  margin: 1px 0;
+
+	&:hover {
+		border-radius: 0;
+		outline: rgb(64, 169, 255) dashed 1px;
+		cursor: pointer;
+	}
+	&.active {
+		background: #f4f4f5;
+		outline: #369c36 solid 2px;
+		border-radius: 0;
+	}
+	&.is-col {
+		width: 100%;
+		display: block;
+	}
+}
+
+#draggable-drawing-board {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
