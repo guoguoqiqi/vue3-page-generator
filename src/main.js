@@ -1,4 +1,5 @@
 import { createApp } from "vue";
+import { createPinia } from "pinia";
 import App from "./App.vue";
 import vuedraggable from "vuedraggable";
 
@@ -10,5 +11,6 @@ import "@/style/home.scss";
 const app = createApp(App);
 
 app.component("vue-draggable", vuedraggable);
+app.use(createPinia());
 app.use(Antd);
 app.mount("#app");

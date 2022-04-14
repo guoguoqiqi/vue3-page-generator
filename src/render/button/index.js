@@ -2,6 +2,7 @@ export default {
   name: "按钮",
   tag: "a-button",
   _props: {
+    text: "确认",
     block: false,
     danger: false,
     disabled: false,

@@ -9,16 +9,14 @@
   }
 }
 .draggable-render-item {
-  display: inline-block;
-  margin: 1px 0;
+  margin: 1px;
   &:hover {
     outline: #5584ff dashed 1px;
     cursor: pointer;
     border-radius: 0;
   }
-  &.active {
+  &.render-item-active {
     outline: #369c36 solid 2px;
-    background: #f4f4f5;
     border-radius: 0;
   }
   &.is-col {
