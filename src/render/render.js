@@ -6,8 +6,9 @@ const renderInstance = function (conf) {
   const { template } = interfaces(conf);
 
   // 创建组件实例
+  // /\[\[([^\[\]]*)\]\]/g
   const { _component } = createApp({
-    template,
+    template: template.replace(/\[\[/g, "").replace(/\]\]/g, ""),
     props: ["conf"],
     computed: {
       activeId: () => mainStore().activeComponent?.id,

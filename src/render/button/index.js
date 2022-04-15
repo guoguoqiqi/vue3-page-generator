@@ -11,8 +11,9 @@ export default {
     icon: "",
     loading: false,
     shape: "",
-    size: "middle",
+    size: "default",
     target: "",
     type: "primary",
   },
+  resolveName: "button",
 };

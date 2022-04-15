@@ -19,7 +19,7 @@ export default function (conf) {
 
   return {
     template: `
-      <a-input ${attrs.join(" ")} @click.native.prevent="selectItem"
+      <a-input ${attrs.join(" ")} [[@click.native.prevent="selectItem"]]
         :class="{'render-item-active': this.conf.id === this.activeId}">
       </a-input>`,
   };

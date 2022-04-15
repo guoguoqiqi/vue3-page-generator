@@ -15,4 +15,5 @@ export default {
     type: "text",
     allowClear: false,
   },
+  resolveName: "input",
 };

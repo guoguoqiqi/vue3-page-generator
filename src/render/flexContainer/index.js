@@ -3,4 +3,5 @@ export default {
   tag: "flex-container",
   children: [],
   _props: {},
+  resolveName: "flexContainer",
 };
