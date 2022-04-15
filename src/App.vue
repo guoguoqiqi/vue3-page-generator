@@ -28,21 +28,44 @@
 					</template>
 				</vue-draggable>
 			</div>
-			<div class="right-box"></div>
+			<div class="right-box">
+				<component :is="componentPanel" :key="panelKey"></component>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script setup>
-import { reactive } from "vue";
+import {
+	computed,
+	defineAsyncComponent,
+	defineComponent,
+	reactive,
+	ref,
+	watch,
+} from "vue";
 import * as _Lodash from "lodash";
 import { nanoid } from "nanoid";
 import renderItem from "../src/render/render";
 import { resources } from "./render/resources";
+import { mainStore } from "./store";
 
 const componentList = reactive([]);
+const store = mainStore();
 let dragCompObj = reactive(null);
 let pointer = null;
+let componentPanel = ref(null);
+let panelKey = ref(1);
+
+let activeComponent = computed(() => store.activeComponent);
+
+watch(activeComponent, (val) => {
+	console.log(val);
+	componentPanel = defineAsyncComponent(() =>
+		import("../src/render/button/panel.vue")
+	);
+	panelKey.value++;
+});
 
 const handleDragStart = function (event, element) {
 	console.log(event, element);
@@ -87,50 +110,49 @@ const dragEnd = function (event) {
 
 <style>
 .application-container {
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
 }
 .header-box {
-  width: 100%;
-  height: 60px;
-  border-bottom: 1px solid #eee;
-  background-color: #545c64;
+	width: 100%;
+	height: 60px;
+	border-bottom: 1px solid #eee;
+	background-color: #545c64;
 }
 .content-box {
-  display: flex;
-  width: 100%;
-  height: calc(100vh - 60px);
-  flex-direction: row;
-  justify-content: space-between;
+	display: flex;
+	width: 100%;
+	height: calc(100vh - 60px);
+	flex-direction: row;
+	justify-content: space-between;
 }
 .left-bar {
-  width: 240px;
-  padding: 5px;
-  border-right: 1px solid #eee;
-  flex-shrink: 0;
+	width: 240px;
+	padding: 5px;
+	border-right: 1px solid #eee;
+	flex-shrink: 0;
 }
 .left-bar .element-item {
-  float: left;
-  width: 105px;
-  margin-bottom: 10px;
-  margin-left: 5px;
-  padding: 5px 10px;
-  border: 1px dashed #f6f7ff;
-  font-size: 12px;
-  text-align: center;
-  background: #f6f7ff;
-  cursor: move;
-  border-radius: 3px;
+	float: left;
+	width: 105px;
+	margin-bottom: 10px;
+	margin-left: 5px;
+	padding: 5px 10px;
+	border: 1px dashed #f6f7ff;
+	font-size: 12px;
+	text-align: center;
+	background: #f6f7ff;
+	cursor: move;
+	border-radius: 3px;
 }
 .center-box {
-  flex: 1;
-  overflow-y: auto;
+	flex: 1;
+	overflow-y: auto;
 }
 .right-box {
-  width: 240px;
-  border-left: 1px solid #eee;
-  flex-shrink: 0;
+	width: 240px;
+	border-left: 1px solid #eee;
+	flex-shrink: 0;
 }
-
 </style>
