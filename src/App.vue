@@ -1,33 +1,36 @@
 <template>
-  <div class="application-container">
-    <div class="header-box"></div>
-    <div class="content-box">
-      <div class="left-bar">
-        <div
-          v-for="element in resources"
-          :key="element.tag"
-          :draggable="true"
-          class="element-item"
-          @dragstart="handleDragStart($event, element)"
-        >
-          {{ element.name }}
-        </div>
-      </div>
-      <div class="center-box" @dragover="handleDragOver" @drop="handleDrop">
-        <vue-draggable
-          id="draggable-drawing-board"
-          :list="componentList"
-          item-key="id"
-          group="dragArea"
-        >
-          <template #item="{ element }">
-            <renderItem :conf="element" />
-          </template>
-        </vue-draggable>
-      </div>
-      <div class="right-box"></div>
-    </div>
-  </div>
+	<div class="application-container">
+		<div class="header-box"></div>
+		<div class="content-box">
+			<div class="left-bar">
+				<div
+					v-for="element in resources"
+					:key="element.tag"
+					:draggable="true"
+					class="element-item"
+					@dragstart="handleDragStart($event, element)"
+				>
+					{{ element.name }}
+				</div>
+			</div>
+			<div class="center-box" @dragover="dragOver" @drop="drop">
+				<vue-draggable
+					item-key="id"
+					id="draggable-drawing-board"
+					ghostClass="draging-item-class"
+					:list="componentList"
+					group="dragArea"
+					@dragstart="dragStart"
+					@end="dragEnd"
+				>
+					<template #item="{ element }">
+						<render-item :conf="element"></render-item>
+					</template>
+				</vue-draggable>
+			</div>
+			<div class="right-box"></div>
+		</div>
+	</div>
 </template>
 
 <script setup>
@@ -39,25 +42,46 @@ import { resources } from "./render/resources";
 
 const componentList = reactive([]);
 let dragCompObj = reactive(null);
+let pointer = null;
 
 const handleDragStart = function (event, element) {
-  console.log(event, element);
-  dragCompObj = _Lodash.cloneDeep({
-    ...element,
-    id: nanoid(),
-  });
+	console.log(event, element);
+	dragCompObj = _Lodash.cloneDeep({
+		...element,
+		id: nanoid(),
+	});
 };
 
-const handleDragOver = function (event) {
-  event.preventDefault();
+const dragOver = function (event) {
+	event.preventDefault();
 };
 
-const handleDrop = function () {
-  if (dragCompObj) {
-    componentList.push(dragCompObj);
-  }
+const drop = function () {
+	if (dragCompObj) {
+		componentList.push(dragCompObj);
+	}
 
-  dragCompObj = null;
+	dragCompObj = null;
+};
+
+const dragStart = function (event) {
+	event.dataTransfer.effectAllowed = "linkMove";
+	pointer = document.createElement("canvas");
+	pointer.style.position = "absolute";
+	pointer.style.left = "-100%";
+	pointer.style.top = "-100%";
+	const context = pointer.getContext("2d");
+	context.height = "10px";
+	context.width = "10px";
+	context.fillStyle = "green";
+	context.fillRect(5, 5, 10, 10);
+	document.body.append(pointer);
+	event.dataTransfer.setDragImage(pointer, 7.5, 7.5); // 用透明图片覆盖默认拖拽效果
+};
+
+const dragEnd = function (event) {
+	document.body.removeChild(pointer);
+	pointer = null;
 };
 </script>
 
@@ -108,4 +132,5 @@ const handleDrop = function () {
   border-left: 1px solid #eee;
   flex-shrink: 0;
 }
+
 </style>

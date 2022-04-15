@@ -8,6 +8,7 @@
     padding: 0.5px;
   }
 }
+/** 拖拽元素相关样式 */
 .draggable-render-item {
   margin: 1px;
   &:hover {
@@ -16,7 +17,7 @@
     border-radius: 0;
   }
   &.render-item-active {
-    outline: #369c36 solid 2px;
+    outline: 2px solid #75b325;
     border-radius: 0;
   }
   &.is-col {
@@ -24,8 +25,13 @@
     width: 100%;
   }
 }
+/** 被拖拽元素影子样式 */
+.draging-item-class {
+  opacity: 0.25;
+}
 #draggable-drawing-board {
   width: 100%;
   min-height: 100%;
   padding: 10px;
 }
+
