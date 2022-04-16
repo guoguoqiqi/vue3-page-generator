@@ -1,7 +1,7 @@
 /** 组件相关样式 */
 .flex-container {
   width: 100%;
-  border: 0.5px solid #e0e0e0;
+  border: 1px solid #5584ff;
   background: #f1f1f1;
   .drag-wrapper {
     min-height: 200px;
@@ -12,9 +12,7 @@
 .draggable-render-item {
   margin: 1px;
   &:hover {
-    outline: #5584ff dashed 1px;
     cursor: pointer;
-    border-radius: 0;
   }
   &.render-item-active {
     outline: 2px solid #75b325;
